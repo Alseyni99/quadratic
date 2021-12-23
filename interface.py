@@ -30,9 +30,7 @@ class quadratic(QMainWindow):
 
     def fram1(self):
         self.frame1=QFrame(self.centralWidget)
-        self.frame1.setFrameShape(QFrame.StyledPanel)
-        self.frame1.setFrameShadow(QFrame.Raised)
-
+        
         self.hlayoutgen.addWidget(self.frame1)
 
         self.vlayout1=QVBoxLayout(self.frame1)
@@ -51,15 +49,12 @@ class quadratic(QMainWindow):
     def fram_input(self):
         self.frame_input = QFrame(self.frame1)
         self.frame_input.setMaximumSize(QtCore.QSize(16777215, 75))
-        self.frame_input.setFrameShape(QFrame.NoFrame)
-        self.frame_input.setFrameShadow(QFrame.Raised)
+        
 
         
 
         self.frame_a = QFrame(self.frame_input)
-        self.frame_a.setFrameShape(QFrame.StyledPanel)
-        self.frame_a.setFrameShadow(QFrame.Raised)
-
+        
         self.alabel=QLabel(self.frame_a)
         self.alabel.setText('a')
 
@@ -71,8 +66,7 @@ class quadratic(QMainWindow):
 
 
         self.frame_b = QFrame(self.frame_input)
-        self.frame_b.setFrameShape(QFrame.StyledPanel)
-        self.frame_b.setFrameShadow(QFrame.Raised)
+        
 
         self.blabel=QLabel(self.frame_b)
         self.blabel.setText('b')
@@ -84,8 +78,7 @@ class quadratic(QMainWindow):
         self.hlayout_b.addWidget(self.lineEdit_b)
 
         self.frame_c = QFrame(self.frame_input)
-        self.frame_c.setFrameShape(QFrame.StyledPanel)
-        self.frame_c.setFrameShadow(QFrame.Raised)
+        
 
         self.clabel=QLabel(self.frame_c)
         self.clabel.setText('c')
@@ -105,8 +98,6 @@ class quadratic(QMainWindow):
 
     def fram_plot(self):
         self.frame_plot=QFrame(self.frame1)
-        self.frame_plot.setFrameShape(QFrame.StyledPanel)
-        self.frame_plot.setFrameShadow(QFrame.Raised)
         self.frame_plot.setMaximumSize(QtCore.QSize(16777215, 50))
 
         self.vlayout1.addWidget(self.frame_plot)
@@ -122,8 +113,6 @@ class quadratic(QMainWindow):
 
     def fram2(self):
         self.frame2=QFrame(self.centralWidget)
-        self.frame2.setFrameShape(QFrame.StyledPanel)
-        self.frame2.setFrameShadow(QFrame.Raised)
         self.frame2.setMaximumSize(QtCore.QSize(100, 16777215))
 
         self.hlayoutgen.addWidget(self.frame2)
