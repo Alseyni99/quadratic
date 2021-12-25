@@ -1,4 +1,5 @@
-from sympy import symbols, solve
+from sympy import symbols, solve, lambdify
+import numpy as np
 
 def trans_quad(a,b,c):
     x = symbols('x')
@@ -11,6 +12,14 @@ def compute_roots(quad):
     #return listroots
 
 
+def obtainequation(eq,range_x):
+    x = symbols('x')
+    tr = lambdify(x,eq,'numpy')
+    return tr(range_x)
+
+
+#range_x = np.linspace(-10,10,100)
+#print(obtainequation(trans_quad(1,2,3),range_x))
 
 
 

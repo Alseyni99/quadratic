@@ -1,6 +1,6 @@
 import sys
 from sys import setdlopenflags
-from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLineEdit, QMainWindow, QFrame, QPushButton, QRadioButton, QVBoxLayout, QWidget, QLabel, QSlider, QDial, QMenuBar, QMenu, QStatusBar, QAction
+from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLineEdit, QMainWindow, QFrame, QPushButton, QRadioButton, QVBoxLayout, QWidget, QLabel, QSlider, QDial, QMenuBar, QMenu, QStatusBar, QAction, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 from PyQt5 import QtCore 
 import pyqtgraph as pg
@@ -43,6 +43,15 @@ class quadratic(QMainWindow):
         self.framegraph.setFrameShadow(QFrame.Raised)
         self.vlayout1.addWidget(self.framegraph)
 
+        self.graph = pg.PlotWidget(self.framegraph)
+        self.graph.setGeometry(QtCore.QRect(10, 10, 425, 315))
+
+        self.framegraphlayouthor = QHBoxLayout(self.framegraph)
+        self.framegraphlayouthor.addWidget(self.graph)
+
+        self.graph.setLabel('left', 'y')
+        self.graph.setLabel('bottom' , 'x')
+        self.graph.showGrid(x=True, y=True)
 
 
     def fram_input(self):
@@ -106,6 +115,7 @@ class quadratic(QMainWindow):
 
         self.plotbutton=QPushButton(self.frame_plot)
         self.plotbutton.setText('Plot')
+        self.plotbutton.clicked.connect(self.plotgraph)
 
         self.clearbutton = QPushButton(self.frame_plot)
         self.clearbutton.setText("Clear")
@@ -158,31 +168,52 @@ class quadratic(QMainWindow):
         self.rootbutton.clicked.connect(self.roots)
 
     def roots(self):
+        listline_Editabc = [self.lineEdit_a,self.lineEdit_b,self.lineEdit_c]
+        for i in listline_Editabc:
+            if i.text() == '':
+                i.setText('0')
+
         self.value_a = int(self.lineEdit_a.text())
         self.value_b = int(self.lineEdit_b.text())
         self.value_c = int(self.lineEdit_c.text())
 
+        if (self.value_a == 0 and self.value_b == 0 and self.value_c == 0):
+            self.message = QMessageBox().information(self,"information","All numbers are solution to the equation",QMessageBox.Ok)
 
-        rootscompute = compute_roots(trans_quad(self.value_a,self.value_b,self.value_c))
+        if (self.value_a == 0 and self.value_b != 0):
+            self.lineEdit_x1.setText(str(compute_roots(trans_quad(self.value_a,self.value_b,self.value_c))))
 
-        self.lineEdit_x1.setText(str(rootscompute[0]))
-        self.lineEdit_x2.setText(str(rootscompute[1]))
+        if (self.value_a == 0 and self.value_b == 0 and self.value_c != 0):
+            self.message1 = QMessageBox().information(self,"information","There are no solutions to the equation",QMessageBox.Ok)
+        
+        if (self.value_a != 0) :
+            rootscompute = compute_roots(trans_quad(self.value_a,self.value_b,self.value_c))
+            self.lineEdit_x1.setText(str(rootscompute[0]))
+            self.lineEdit_x2.setText(str(rootscompute[1]))
 
     def clearzer(self):
         listline_Edit=[self.lineEdit_a,self.lineEdit_b,self.lineEdit_c,self.lineEdit_x1,self.lineEdit_x2]
         for i in listline_Edit:
             i.clear()
         
-
-
-
+    
+    def plotgraph(self):
+        listline_Editabc = [self.lineEdit_a,self.lineEdit_b,self.lineEdit_c]
+        for i in listline_Editabc:
+            if i.text() == '':
+                i.setText('0')
         
 
-def main():
-    app = QApplication(sys.argv)
-    win = quadratic()
-    win.show()
-    sys.exit(app.exec_())
+        self.value_a = int(self.lineEdit_a.text())
+        self.value_b = int(self.lineEdit_b.text())
+        self.value_c = int(self.lineEdit_c.text())
 
-if __name__ == '__main__':
-    main()
+        if (self.value_a == 0 and self.value_b == 0 and self.value_c != 0):
+            self.message1 = QMessageBox().information(self,"Error","Graph can't be displayed")
+        else:
+            range_x = np.linspace(-10,10,200)
+            y = obtainequation(trans_quad(self.value_a, self.value_b, self.value_c),range_x)
+            self.graph.plot(range_x,y)
+
+
+
