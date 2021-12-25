@@ -5,6 +5,7 @@ from PyQt5.QtGui import QFont, QColor
 from PyQt5 import QtCore 
 import pyqtgraph as pg
 import numpy as np
+from functions import *
 
 
 class quadratic(QMainWindow):
@@ -17,6 +18,7 @@ class quadratic(QMainWindow):
         self.fram_input()
         self.fram_plot()
         self.fram2()
+        
         
 
     def initUI(self):
@@ -42,15 +44,10 @@ class quadratic(QMainWindow):
         self.vlayout1.addWidget(self.framegraph)
 
 
-    
-
-        
 
     def fram_input(self):
         self.frame_input = QFrame(self.frame1)
         self.frame_input.setMaximumSize(QtCore.QSize(16777215, 75))
-        
-
         
 
         self.frame_a = QFrame(self.frame_input)
@@ -59,6 +56,7 @@ class quadratic(QMainWindow):
         self.alabel.setText('a')
 
         self.lineEdit_a = QLineEdit(self.frame_a)
+        self.lineEdit_a.setPlaceholderText("a_n")
         
         self.hlayout_a=QHBoxLayout(self.frame_a)
         self.hlayout_a.addWidget(self.alabel)
@@ -72,6 +70,7 @@ class quadratic(QMainWindow):
         self.blabel.setText('b')
 
         self.lineEdit_b = QLineEdit(self.frame_b)
+        self.lineEdit_b.setPlaceholderText("a_n-1")
         
         self.hlayout_b=QHBoxLayout(self.frame_b)
         self.hlayout_b.addWidget(self.blabel)
@@ -84,6 +83,7 @@ class quadratic(QMainWindow):
         self.clabel.setText('c')
 
         self.lineEdit_c = QLineEdit(self.frame_c)
+        self.lineEdit_c.setPlaceholderText("a_n-2")
         
         self.hlayout_c=QHBoxLayout(self.frame_c)
         self.hlayout_c.addWidget(self.clabel)
@@ -106,14 +106,19 @@ class quadratic(QMainWindow):
 
         self.plotbutton=QPushButton(self.frame_plot)
         self.plotbutton.setText('Plot')
+
+        self.clearbutton = QPushButton(self.frame_plot)
+        self.clearbutton.setText("Clear")
+        self.clearbutton.clicked.connect(self.clearzer)
         
-        self.hlayoutplot.addWidget(self.plotbutton,0, QtCore.Qt.AlignHCenter)
+        self.hlayoutplot.addWidget(self.plotbutton)
+        self.hlayoutplot.addWidget(self.clearbutton)
 
         
 
     def fram2(self):
         self.frame2=QFrame(self.centralWidget)
-        self.frame2.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.frame2.setMaximumSize(QtCore.QSize(300, 16777215))
 
         self.hlayoutgen.addWidget(self.frame2)
         
@@ -126,6 +131,8 @@ class quadratic(QMainWindow):
         self.x1label=QLabel(self.framex1)
         self.x1label.setText('x1')
         self.lineEdit_x1=QLineEdit(self.framex1)
+        self.lineEdit_x1.setReadOnly(True)
+        self.lineEdit_x1.resize(80,20)
 
         self.hlayoutx1=QHBoxLayout(self.framex1)
         self.hlayoutx1.addWidget(self.x1label)
@@ -138,6 +145,7 @@ class quadratic(QMainWindow):
         self.x2label=QLabel(self.frame2)
         self.x2label.setText('x2')
         self.lineEdit_x2=QLineEdit(self.framex2)
+        self.lineEdit_x2.setReadOnly(True)
         
         self.hlayoutx2 = QHBoxLayout(self.framex2)
         self.hlayoutx2.addWidget(self.x2label)
@@ -147,6 +155,25 @@ class quadratic(QMainWindow):
         self.rootbutton.setText('Roots')
 
         self.vlayout2.addWidget(self.rootbutton)
+        self.rootbutton.clicked.connect(self.roots)
+
+    def roots(self):
+        self.value_a = int(self.lineEdit_a.text())
+        self.value_b = int(self.lineEdit_b.text())
+        self.value_c = int(self.lineEdit_c.text())
+
+
+        rootscompute = compute_roots(trans_quad(self.value_a,self.value_b,self.value_c))
+
+        self.lineEdit_x1.setText(str(rootscompute[0]))
+        self.lineEdit_x2.setText(str(rootscompute[1]))
+
+    def clearzer(self):
+        listline_Edit=[self.lineEdit_a,self.lineEdit_b,self.lineEdit_c,self.lineEdit_x1,self.lineEdit_x2]
+        for i in listline_Edit:
+            i.clear()
+        
+
 
 
         
